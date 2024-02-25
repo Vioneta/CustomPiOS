@@ -43,8 +43,7 @@ EOF
 fi
 
 if [ "${DOCKER_ADD_USER_TO_GROUP}" == "yes" ]; then
-    if ["${BASE_DISTRO}" == "raspbian" ] || [ "${BASE_DISTRO}" == "raspios64"]
-    then
+    if ["${BASE_DISTRO}" == "raspbian" ] || [ "${BASE_DISTRO}" == "raspios64"]; then
         usermod "${BASE_USER}" -aG docker
         newgrp docker
     else
