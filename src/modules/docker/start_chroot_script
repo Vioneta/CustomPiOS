@@ -40,17 +40,36 @@ EOF
         # Solution from https://sleeplessbeastie.eu/2021/11/19/how-to-downgrade-cgroup-version-on-dietpi/
         sed -i -e "1 s/$/ systemd.unified_cgroup_hierarchy=0/" /boot/firmware/cmdline.txt
     fi
+elif [ "${BASE_DISTRO}" == "armbian" ]; then
+# Install some required packages first
+    apt update
+    apt install -y \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     gnupg2 \
+     software-properties-common
+
+# Get the Docker signing key for packages
+curl -Lsf "https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg" | sudo apt-key add -
+
+# Add the Docker official repos
+echo "deb [arch=armhf] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+     $(lsb_release -cs) stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list
+
+# Install Docker
+# The aufs package, part of the "recommended" packages, won't install on Buster just yet, because of missing pre-compiled kernel modules.
+# We can work around that issue by using "--no-install-recommends"
+    apt update
+    apt install -y --no-install-recommends \
+    docker.io \
+    cgroupfs-mount
 fi
 
 if [ "${DOCKER_ADD_USER_TO_GROUP}" == "yes" ]; then
-    if ["${BASE_DISTRO}" == "raspbian" ] || [ "${BASE_DISTRO}" == "raspios64"]; then
         usermod "${BASE_USER}" -aG docker
         newgrp docker
-    else
-        groupadd docker
-        usermod "${BASE_USER}" -aG docker
-        newgrp docker
-    fi
 fi
 
 if [ "${DOCKER_COMPOSE}" == "yes" ]; then
