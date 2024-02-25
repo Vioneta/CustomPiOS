@@ -44,6 +44,7 @@ fi
 
 if [ "${DOCKER_ADD_USER_TO_GROUP}" == "yes" ]; then
     usermod "${BASE_USER}" -aG docker
+    newgrp docker
 fi
 
 if [ "${DOCKER_COMPOSE}" == "yes" ]; then
