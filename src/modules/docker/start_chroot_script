@@ -43,6 +43,7 @@ EOF
 fi
 
 if [ "${DOCKER_ADD_USER_TO_GROUP}" == "yes" ]; then
+    groupadd docker
     usermod "${BASE_USER}" -aG docker
     newgrp docker
 fi
