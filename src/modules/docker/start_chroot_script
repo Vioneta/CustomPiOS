@@ -43,9 +43,15 @@ EOF
 fi
 
 if [ "${DOCKER_ADD_USER_TO_GROUP}" == "yes" ]; then
-    groupadd docker
-    usermod "${BASE_USER}" -aG docker
-    newgrp docker
+    if ["${BASE_DISTRO}" == "raspbian" ] || [ "${BASE_DISTRO}" == "raspios64"]
+    then
+        usermod "${BASE_USER}" -aG docker
+        newgrp docker
+    else
+        groupadd docker
+        usermod "${BASE_USER}" -aG docker
+        newgrp docker
+    fi
 fi
 
 if [ "${DOCKER_COMPOSE}" == "yes" ]; then
