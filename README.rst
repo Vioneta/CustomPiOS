@@ -1,3 +1,5 @@
+[![ci](https://github.com/Vioneta/CustomPiOS/actions/workflows/docker-build.yml/badge.svg)](https://github.com/Vioneta/CustomPiOS/actions/workflows/docker-build.yml)
+
 CustomPiOS
 ==========
 
