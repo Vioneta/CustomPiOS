@@ -2,7 +2,7 @@ version: "3"
 services:
   vioneta:
     container_name: vioneta
-    image: "ghcr.io/vioneta/vionetaos:latest"
+    image: "ghcr.io/vioneta/raspberrypi4-64-vionetaos:latest"
     volumes:
       - ./config:/config
       - /etc/localtime:/etc/localtime:ro
